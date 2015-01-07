@@ -14,5 +14,3 @@ def showboard(board ):
                 print 'W', ' ',
         print
         print
-#    print "Blacks points:" + str(pb)
-#    print "Whites points:" + str(pw)

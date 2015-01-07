@@ -1,4 +1,8 @@
-__author__ = 'shiva'
+
+#   By Shiva Mirzae
+#   2016.01.07
+
+
 import board
 import unittest
 import rangeException
@@ -9,6 +13,7 @@ def is_number(s):
         return True
     except ValueError:
         return False
+# Introduction
 print
 print "Welcome to Reversi aka Othello "
 print
@@ -102,6 +107,8 @@ brd = board.Board(r, c)
 brd.setup()
 brd.begin(re)
 
+# Start of actual game
+
 co = 0
 while brd.has_turn(2) or brd.has_turn(1):
     print
@@ -139,6 +146,7 @@ print
 consolegui.showboard(brd)
 pb, pw = brd.get_score()
 pb, pw = str(pb), str(pw)
+
 if win == 1:
     if int(pb) > int(pw):
         print "Black has won!!! Black's points: " + pb + " White's points:" + pw

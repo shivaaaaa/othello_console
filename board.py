@@ -1,3 +1,9 @@
+
+#   By Shiva Mirzae
+#   2016.01.07
+#   This module represents the Othello-board.
+
+
 import rangeException
 import numpy
 
@@ -31,12 +37,15 @@ class Board:
         self.matrix = numpy.zeros((self.r, self.c), dtype=numpy.int)
         return self.matrix
 
+# This function setups the game with placing 4 discs in the start-position.
     def begin(self, reverse=False):
         self.matrix[self.r / 2 - 1][self.c / 2 - 1] = WHITE if not reverse else BLACK
         self.matrix[self.r / 2][self.c / 2 - 1] = BLACK if not reverse else WHITE
         self.matrix[self.r / 2][self.c / 2] = WHITE if not reverse else BLACK
         self.matrix[self.r / 2 - 1][self.c / 2] = BLACK if not reverse else WHITE
 
+
+# This function counts the number of each white and black discs ( basically the points ) on the board.
     def get_score(self):
         pb = 0
         pw = 0
@@ -47,15 +56,11 @@ class Board:
                 if i == 2:
                     pb += 1
         return pb, pw
-#    def find_path(self, direct, loc, color, opponent):
-#        flag = True
-#        if self.matrix[loc[0] + direct[0]][loc[1] + direct[1]] == opponent:
-#            while self.matrix[loc[0] + direct[0]][loc[1] + direct[1]] != color:
-#                if flag == True:
 
     def isonboard(self,row, col):
         return (self.r > row >= 0) and (self.c > col >= 0)
 
+# Checks whether a move can be made or not. If so, a list of the discs which will be flipped after the move is returned.
     def check_disc(self, color, loca):
         if not self.isonboard(loca[0], loca[1]) or self.matrix[loca[0]][loca[1]] != 0:
             return False
@@ -64,21 +69,17 @@ class Board:
         else:
             opponent = 2
         listdiscs = []
-        directions = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
+        directions = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]] # Checks all possible direction to score points
         for direct in directions:
             discstoflip = []
             loc = loca[:]
             loc[0] += direct[0]
             loc[1] += direct[1]
             if self.isonboard(loc[0], loc[1]) and self.matrix[loc[0]][loc[1]] == opponent:
-#                loc[0] += direct[0]
-#                loc[1] += direct[1]
-#                if not self.isonboard(loc[0], loc[1]):
-#                    continue
                 discstoflip.append((loc[0], loc[1]))
                 loc[0] += direct[0]
                 loc[1] += direct[1]
-                while self.isonboard(loc[0], loc[1]) and self.matrix[loc[0]][loc[1]] == opponent: ### Der FEHLER liegt hier!!!! ###  index 6 is out of bounds for axis 0 with size 6
+                while self.isonboard(loc[0], loc[1]) and self.matrix[loc[0]][loc[1]] == opponent:
                     discstoflip.append((loc[0], loc[1]))
                     loc[0] += direct[0]
                     loc[1] += direct[1]
@@ -87,14 +88,11 @@ class Board:
                 if not self.matrix[loc[0]][loc[1]] == color:
                     continue
                 listdiscs += discstoflip
-#        for a in discstoflip:
-#            x, y = a
-#            if self.matrix[x][y] != opponent:
-#                discstoflip.remove(a)
         if len(listdiscs) == 0:
             return False
         return listdiscs
 
+# Checks if a player can or cannot make a move at all
     def has_turn(self, color):
         for a in range(self.r):
             for b in range(self.c):
