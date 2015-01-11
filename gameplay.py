@@ -136,9 +136,30 @@ while brd.has_turn(2) or brd.has_turn(1):
     loc1 = raw_input()
     loc2 = raw_input()
     while not is_number(loc1) or not is_number(loc2) or not 0 <= int(loc1) < r or not float.is_integer(float(loc1)) or not 0 <= int(loc2) < c or not float.is_integer(float(loc2)) or not brd.check_disc(turn,[int(loc1), int(loc2)]):
-        print "Your move is invalid. Please try again."
-        loc1 = raw_input()
-        loc2 = raw_input()
+        if not is_number(loc1) or not is_number(loc2):
+            print "Please enter numbers."
+            loc1 = raw_input()
+            loc2 = raw_input()
+            continue
+        if not float.is_integer(float(loc1)) or not float.is_integer(float(loc2)):
+            print "Please enter integers."
+            loc1 = raw_input()
+            loc2 = raw_input()
+            continue
+        if not 0 <= int(loc1) < r or not 0 <= int(loc2) < c:
+            print "Your input was not on the board. Please try again."
+            loc1 = raw_input()
+            loc2 = raw_input()
+            continue
+        if not brd.check_disc(turn,[int(loc1), int(loc2)]):
+            print "You cannot make such a move. Check your position once again and read the rules."
+            loc1 = raw_input()
+            loc2 = raw_input()
+            continue
+        else:
+            print "Your move is invalid. Please try again."
+            loc1 = raw_input()
+            loc2 = raw_input()
     brd.put_discs(turn, [int(loc1), int(loc2)])
 print
 print "***"
